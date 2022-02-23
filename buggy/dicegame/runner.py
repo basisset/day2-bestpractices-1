@@ -57,7 +57,7 @@ class GameRunner:
 
             prompt = input("Would you like to play again?[Y/n]: ")
 
-            if prompt == 'y' or prompt == '':
+            if prompt == 'y' or prompt == '' or prompt == 'Y':
                 continue
             else:
                 print("Thank you for playing dice! :)")
