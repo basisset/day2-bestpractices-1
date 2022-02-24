@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
 from math import ceil,sqrt
+import numpy as np
+#from memory_profiler import profile
+
 @profile
 def gen_primes(n):
     l = range(2,n)
@@ -19,7 +22,7 @@ def gen_primes(n):
     return primes
 
 @profile
-def factorize(n,primes):
+def factorize(n,primes): ### High increment in memory usage
     factors = []
     init_n = n
     for p in primes:
@@ -32,7 +35,6 @@ def factorize(n,primes):
         factors.append(n)
     return factors
 
-    
 def phi(n,primes):
     factors = factorize(n,primes)
     p = 1
@@ -47,9 +49,10 @@ def phi(n,primes):
             p+=1
     return p
 
+### This segment takes the longest time
 @profile
 def fast_phi(n,primes):
-    factors = factorize(n,primes)
+    factors = factorize(n,primes)### High increment in memory usage
     phi = factors[0]-1
     for i in range(1,len(factors)):
         if(factors[i] == factors[i-1]):
@@ -58,7 +61,7 @@ def fast_phi(n,primes):
             phi *= (factors[i]-1)
     return phi
 
-primes = gen_primes(1000)
+primes = gen_primes(1000)### Returns a list
 m = 10000
 #m = 8
 fraq = 0
