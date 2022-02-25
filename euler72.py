@@ -3,6 +3,7 @@
 from math import ceil,sqrt
 import numpy as np
 #from memory_profiler import profile
+import ipdb
 
 @profile
 def gen_primes(n):
@@ -23,17 +24,22 @@ def gen_primes(n):
 
 @profile
 def factorize(n,primes): ### High increment in memory usage
-    factors = []
+                         ### these lines would be good to optimise 
+    ipdb.set_trace()
+    factors = [None] * 20 ### Faster to create a vector beforehand
+                          ### instead of appending in a loop
+    dummy = 0
     init_n = n
     for p in primes:
         while(n%p == 0):
             n = n/p
-            factors.append(p)
-        if(p > sqrt(n)):
+            factors[dummy] = p
+            dummy += 1
+        if(p*p > n): # sqrt is slow
             break
     if(n > 1):
-        factors.append(n)
-    return factors
+        factors[dummy] = n
+    return factors[:dummy]
 
 def phi(n,primes):
     factors = factorize(n,primes)
@@ -54,11 +60,12 @@ def phi(n,primes):
 def fast_phi(n,primes):
     factors = factorize(n,primes)### High increment in memory usage
     phi = factors[0]-1
+
     for i in range(1,len(factors)):
         if(factors[i] == factors[i-1]):
-            phi *= (factors[i]-1)*(factors[i])/(factors[i]-1)
+            phi *= factors[i]-1*(factors[i])/factors[i]-1
         else:
-            phi *= (factors[i]-1)
+            phi *= factors[i]-1
     return phi
 
 primes = gen_primes(1000)### Returns a list
