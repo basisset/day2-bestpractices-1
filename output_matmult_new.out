@@ -1,0 +1,53 @@
+[[600527 609126 590438 ... 625562 549324 635878]
+ [631196 656252 633361 ... 635432 594096 689934]
+ [604734 596770 585953 ... 635384 571490 634765]
+ ...
+ [624584 621189 599510 ... 633844 587463 640067]
+ [652500 643880 621120 ... 640393 624774 671525]
+ [624373 632596 614739 ... 616303 591392 661230]]
+Wrote profile results to matmult.py.lprof
+Timer unit: 1e-06 s
+
+Total time: 0.001445 s
+File: matmult.py
+Function: makeXY at line 11
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    11                                           @profile
+    12                                           
+    13                                           # NxN matrix
+    14                                           # Nx(N+1) matrix
+    15                                           def makeXY(N):
+    16                                               #ipdb.set_trace()
+    17         1        658.0    658.0     45.5      X = np.random.randint(0,100,(N,N))
+    18         1        787.0    787.0     54.5      Y = np.random.randint(0,100,(N,N+1))
+    19         1          0.0      0.0      0.0      return X,Y
+
+Total time: 5e-06 s
+File: matmult.py
+Function: storing_results at line 22
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    22                                           @profile
+    23                                           def storing_results(N):
+    24         1          5.0      5.0    100.0      result = np.zeros((N,N+1))
+    25         1          0.0      0.0      0.0      return result
+    26                                               # iterate through rows of X
+    27                                           
+    28                                               ### This segment takes the most time at about 13.3487 s
+    29                                               ### 41 MiB
+    30                                               ### There is probably a smarter way to multiply X and Y
+    31                                               ### and since these lines takes the longest then I would start modifying here
+
+Total time: 0.011061 s
+File: matmult.py
+Function: final_calc at line 32
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    32                                           @profile
+    33                                           def final_calc(X,Y):
+    34         1      11061.0  11061.0    100.0      return np.matmul(X,Y)
+

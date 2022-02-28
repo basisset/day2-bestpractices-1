@@ -1,35 +1,27 @@
 # Program to multiply two matrices using nested loops
 import random
-from memory_profiler import profile
+#from memory_profiler import profile
+import numpy as np
+import ipdb
 
 N = 250
 
-# NxN matrix
 
 ### 38 MiB
 @profile
-def makeX():
-    X = []
-    for i in range(N):
-        X.append([random.randint(0,100) for r in range(N)])
-    return X
+
+# NxN matrix
 # Nx(N+1) matrix
+def makeXY(N):
+    #ipdb.set_trace()
+    X = np.random.randint(0,100,(N,N))
+    Y = np.random.randint(0,100,(N,N+1))
+    return X,Y
 
 ### 39 MiB
 @profile
-def makeY():
-    Y = []
-    for i in range(N):
-        Y.append([random.randint(0,100) for r in range(N+1)])
-    return Y
-# result is Nx(N+1)
-
-### 39 MiB
-@profile
-def appending_results():
-    result = []
-    for i in range(N):
-        result.append([0] * (N+1))
+def storing_results(N):
+    result = np.zeros((N,N+1))
     return result
     # iterate through rows of X
 
@@ -39,13 +31,7 @@ def appending_results():
     ### and since these lines takes the longest then I would start modifying here
 @profile
 def final_calc(X,Y):
-    for i in range(len(X)):
-    # iterate through columns of Y
-        for j in range(len(Y[0])):
-            # iterate through rows of Y
-            for k in range(len(Y)):
-                result[i][j] += X[i][k] * Y[k][j]
-    return result
+    return np.matmul(X,Y)
 
 ### Is it necessary to print everything?
 ### 41 MiB
@@ -55,10 +41,10 @@ def final_calc(X,Y):
 #        print(r)
 #    return
 
-X = makeX()
-Y = makeY()
-result = appending_results()
+#ipdb.set_trace()
+X,Y = makeXY(N)
+result = storing_results(N)
 result = final_calc(X,Y)
-#print_res(result)
+print(result)
 
 
